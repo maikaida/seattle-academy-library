@@ -31,10 +31,10 @@ public class BooksService {
      */
     public List<BookInfo> getBookList() {
 
-        // TODO 取得したい情報を取得するようにSQLを修正
-        List<BookInfo> getedBookList = jdbcTemplate.query(
-                "select * from books",
-                new BookInfoRowMapper());
+        // TODO 取得したい情報を取得するようにSQLを修正  	
+    	 List<BookInfo> getedBookList = jdbcTemplate.query(
+                 "SELECT id, title, author, publisher, publish_date, thumbnail_url FROM books ORDER BY title ASC",
+                 new BookInfoRowMapper());
 
         return getedBookList;
     }
