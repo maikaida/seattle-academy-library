@@ -57,18 +57,27 @@ public class BooksService {
 
 	/**
 	 * 書籍を登録する
-	 *
+	 * 
+	 * 
+	 * 
 	 * @param bookInfo 書籍情報
 	 */
 	public void registBook(BookDetailsInfo bookInfo) {
 
-		String sql = "INSERT INTO books (title, author,publisher,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
-				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
-				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
+		String sql = "INSERT INTO books (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, reg_date, upd_date) VALUES ('"
+				+ bookInfo.getTitle() + "','" 
+				+ bookInfo.getAuthor() + "','" 
+				+ bookInfo.getPublisher() + "','"
+				+ bookInfo.getPublishDate() + "','" 
+				+ bookInfo.getISBN() + "','" 
+				+ bookInfo.getExplain() + "','"
+				+ bookInfo.getThumbnailName() + "','" 
+				+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
 
 		jdbcTemplate.update(sql);
+		
+		System.out.println(sql);
 	}
-	
 	
 
 	public void deleteBook(int bookId) {
@@ -77,5 +86,5 @@ public class BooksService {
 
 		jdbcTemplate.update(sql);
 	}
-
+	
 }
