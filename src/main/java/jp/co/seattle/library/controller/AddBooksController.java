@@ -53,7 +53,7 @@ public class AddBooksController {
 	@RequestMapping(value = "/insertBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public String insertBook(Locale locale, @RequestParam("title") String title, @RequestParam("author") String author,
 			@RequestParam("publisher") String publisher, @RequestParam("publishDate") String publishDate,
-			@RequestParam("ISBN") String ISBN, @RequestParam("explain") String explain,
+			@RequestParam("isbn") String isbn, @RequestParam("explain") String explain,
 			@RequestParam("thumbnail") MultipartFile file, Model model) {
 		logger.info("Welcome insertBooks.java! The client locale is {}.", locale);
 
@@ -63,8 +63,11 @@ public class AddBooksController {
 		bookInfo.setAuthor(author);
 		bookInfo.setPublisher(publisher);
 		bookInfo.setPublishDate(publishDate);
-		bookInfo.setISBN(ISBN);
+		bookInfo.setIsbn(isbn);
 		bookInfo.setExplain(explain);
+		
+	
+		
 
 		List<String> errorMessage = new ArrayList<String>();
 
@@ -92,25 +95,21 @@ public class AddBooksController {
 
 
 
-		// 出版日・ISBN入力バリデーションチェック
+		
 		if (title.isEmpty() || author.isEmpty() || publisher.isEmpty() || publishDate.isEmpty()) {
 			errorMessage.add("<br>必須項目を入力してください</br>");
-			// return "addBook";
 		}
 
 		if (!(publishDate.matches("^[0-9]{8}+$"))) {
 			errorMessage.add("<br>出版日は半角数字のYYYYMMDD形式で入力してください</br>");
-
-//			return "addBook";	
 		}
 
-		Boolean digitNumberCheck = !ISBN.matches("^[0-9]{10}+$") && !ISBN.matches("^[0-9]{13}+$");
+		Boolean digitNumberCheck = !isbn.matches("^[0-9]{10}+$") && !isbn.matches("^[0-9]{13}+$");
 		
-		System.out.println();
 		
-		if (!ISBN.isEmpty() && digitNumberCheck) {
+		
+		if (!isbn.isEmpty() && digitNumberCheck) {
 			errorMessage.add("<br>ISBNの桁数または半角数字が正しくありません</br>");
-
 		}
 
 		if (errorMessage.size() > 0) {
@@ -118,6 +117,7 @@ public class AddBooksController {
 			model.addAttribute("bookInfo", bookInfo);
 			return "addBook";
 		}
+		
 
 		// 書籍情報を新規登録する
 		booksService.registBook(bookInfo);
@@ -129,7 +129,5 @@ public class AddBooksController {
 		return "details";
 
 	}
-	
-//	booksService.getBookList();
-//	model.addAttribute("bookDetailsInfo", bookInfo);
+
 }
