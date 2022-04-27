@@ -33,7 +33,7 @@ public class BooksService {
 
 		// TODO 取得したい情報を取得するようにSQLを修正
 		List<BookInfo> getedBookList = jdbcTemplate.query(
-				"SELECT id, title, author, publisher, publish_date, thumbnail_url FROM books ORDER BY title ASC",
+				"SELECT id, title, author, publisher, publish_date, isbn, explain, thumbnail_url FROM books ORDER BY title ASC",
 				new BookInfoRowMapper());
 
 		return getedBookList;
@@ -54,28 +54,44 @@ public class BooksService {
 
 		return bookDetailsInfo;
 	}
+	
+	
 
 	/**
 	 * 書籍を登録する
-	 *
+	 * 
+	 * 
+	 * 
 	 * @param bookInfo 書籍情報
 	 */
 	public void registBook(BookDetailsInfo bookInfo) {
 
-		String sql = "INSERT INTO books (title, author,publisher,thumbnail_name,thumbnail_url,reg_date,upd_date) VALUES ('"
-				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
-				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
+		String sql = "INSERT INTO books (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, reg_date, upd_date) VALUES ('"
+				+ bookInfo.getTitle() + "','" 
+				+ bookInfo.getAuthor() + "','" 
+				+ bookInfo.getPublisher() + "','"
+				+ bookInfo.getPublishDate() + "','" 
+				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getExplain() + "','"
+				+ bookInfo.getThumbnailName() + "','" 
+				+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
 
 		jdbcTemplate.update(sql);
+		
+		System.out.println(sql);
 	}
 	
-	
 
+	/**
+	 * 書籍を削除する
+	 *
+	 * @param bookId 書籍ID
+	 */	
 	public void deleteBook(int bookId) {
 
 		String sql = "DELETE FROM books where id = " + bookId;
 
 		jdbcTemplate.update(sql);
 	}
-
+	
 }
