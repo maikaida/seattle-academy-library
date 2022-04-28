@@ -132,7 +132,7 @@ public class EditBookController {
 		
 		
 		// 書籍情報を編集する
-		booksService.updateBook(bookInfo, bookId);
+		booksService.updateBook(bookInfo);
 		model.addAttribute("resultMessage", "更新完了");
 
 		// TODO 編集した書籍の詳細情報を表示するように実装
