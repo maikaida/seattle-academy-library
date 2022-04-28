@@ -78,7 +78,6 @@ public class BooksService {
 
 		jdbcTemplate.update(sql);
 		
-		System.out.println(sql);
 	}
 	
 
