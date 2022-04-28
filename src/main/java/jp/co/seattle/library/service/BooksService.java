@@ -80,6 +80,22 @@ public class BooksService {
 		
 	}
 	
+	public void updateBook(BookDetailsInfo bookInfo, int bookId) {
+		
+		String sql = "UPDATE books SET (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, upd_date) = ('" 
+				+ bookInfo.getTitle() + "','" 
+				+ bookInfo.getAuthor() + "','" 
+				+ bookInfo.getPublisher() + "','"
+				+ bookInfo.getPublishDate() + "','" 
+				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getExplain() + "','"
+				+ bookInfo.getThumbnailName() + "','" 
+				+ bookInfo.getThumbnailUrl() + "'," + "now()) WHERE id = " + bookId;
+	
+		jdbcTemplate.update(sql);
+	}
+	
+	
 
 	/**
 	 * 書籍を削除する
