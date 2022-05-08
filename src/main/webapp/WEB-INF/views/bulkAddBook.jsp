@@ -29,7 +29,6 @@
         </div>
     </header>
     <main>
-        s
         <h1>一括登録</h1>
         <div class="bulk_form">
             <form action="<%=request.getContextPath()%>/bulkInsertBook" method="post" enctype="multipart/form-data" id="data_upload_form">
