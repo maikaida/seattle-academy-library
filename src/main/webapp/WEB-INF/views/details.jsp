@@ -32,7 +32,7 @@
     <main>
         <h1>書籍の詳細</h1>
         <div class="content_body detail_book_content">
-            <div class="content_left">
+            <div class="content_center">
                 <span>書籍の画像</span>
                 <div class="book_thumnail">
                     <a href="${bookDetailsInfo.thumbnailUrl}" data-lightbox="image-1"> <c:if test="${bookDetailsInfo.thumbnailUrl == 'null'}">
@@ -42,6 +42,9 @@
                         </c:if> <input type="hidden" name="bookId" value="${bookDetailsInfo.bookId}">
                     </a>
                 </div>
+                <c:if test="${!empty errorMessages}">
+                    <div class="error">${errorMessages}</div>
+                </c:if>
             </div>
             <div class="content_right">
                 <div>
