@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jp.co.seattle.library.dto.BookDetailsInfo;
 import jp.co.seattle.library.service.BooksService;
-//import jp.co.seattle.library.service.ThumbnailService;
 
 /**
  * Handles requests for the application home page.
@@ -32,9 +32,14 @@ public class bulkAddBookController {
 	@Autowired
 	private BooksService booksService;
 
-//	@Autowired
-//	private ThumbnailService thumbnailService;
-
+	/**
+	 * ログイン処理
+	 *
+	 * 
+	 *
+	 * @param model
+	 * @return 一括登録画面に遷移
+	 */
 	@RequestMapping(value = "/bulkAddBook", method = RequestMethod.GET) // value＝actionで指定したパラメータ
 	// RequestParamでname属性を取得
 	public String bulkAddBook(Model model) {
@@ -45,9 +50,6 @@ public class bulkAddBookController {
 	 * 書籍情報を一括登録する
 	 * 
 	 * @param locale ロケール情報
-	 *
-	 * 
-	 * 
 	 * @param file   サムネイルファイル
 	 * @param model  モデル
 	 * @return 遷移先画面
@@ -65,19 +67,11 @@ public class bulkAddBookController {
 			List<String> errorList = new ArrayList<String>();
 			List<BookDetailsInfo> bookList = new ArrayList<BookDetailsInfo>();
 
-			if (file.isEmpty()) {
-				errorList.add("ファイルが選択されていません");
-			}
-			
+
 
 			while ((bookValue = br.readLine()) != null) {
-				final String[] bookValues = bookValue.split(",", -1);
+				String[] bookValues = bookValue.split(",", -1);
 				BookDetailsInfo bookInfo = new BookDetailsInfo();
-				bookInfo.setTitle(bookValues[0]);
-				bookInfo.setAuthor(bookValues[1]);
-				bookInfo.setPublisher(bookValues[2]);
-				bookInfo.setPublishDate(bookValues[3]);
-				bookInfo.setIsbn(bookValues[4]);
 
 				lineCount++;
 
@@ -88,18 +82,26 @@ public class bulkAddBookController {
 						|| bookValues[3].isEmpty()) || (!bookValues[3].matches("^[0-9]{8}+$"))
 						|| ((!bookValues[4].isEmpty() && digitNumberCheck))) {
 					errorList.add(lineCount + "行目の書籍登録でエラーが発生しました");
+
 				} else {
+
+					bookInfo.setTitle(bookValues[0]);
+					bookInfo.setAuthor(bookValues[1]);
+					bookInfo.setPublisher(bookValues[2]);
+					bookInfo.setPublishDate(bookValues[3]);
+					bookInfo.setIsbn(bookValues[4]);
+
 					bookList.add(bookInfo);
 				}
 
 			}
-
-
 			
+			if (bookList.size() == 0) {
+				errorList.add("csvに書籍情報がありません");
+			}
 
-			if (errorList.isEmpty()) {
+			if (CollectionUtils.isEmpty(errorList)) {
 				booksService.bulkAddBook(bookList);
-				model.addAttribute("bookList", bookList);
 				return "redirect:/home";
 
 			} else {
