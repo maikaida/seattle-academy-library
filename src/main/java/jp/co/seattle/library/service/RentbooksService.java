@@ -57,4 +57,17 @@ public class RentbooksService {
 
 	}
 
+	/**
+	 * 書籍を返却する
+	 * 
+	 * 
+	 * 
+	 * @param bookInfo 書籍情報
+	 */
+	public void returnBook(int bookId) {
+
+		String sql = "DELETE FROM rentbooks where book_id =" + bookId;
+		jdbcTemplate.update(sql);
+	}
+
 }
