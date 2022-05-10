@@ -21,27 +21,35 @@ public class RentBooksController {
 
 	final static Logger logger = LoggerFactory.getLogger(AddBooksController.class);
 	@Autowired
-	private RentbooksService RentbooksService;
+	private RentbooksService rentbooksService;
 	@Autowired
-	private BooksService BooksService;
+	private BooksService booksService;
 
+	
+	/**
+	 * 対象書籍を借りる
+	 * 
+	 * @param locale ロケール情報
+	 * @param model  モデル
+	 * @return 遷移先画面
+	 */
 	@Transactional
 	@RequestMapping(value = "/rentBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public String RentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome RentBooks.java! The client locale is {}.", locale);
 
-		RentBookInfo selectedRentBookInfo = RentbooksService.selectedRentBookInfo(bookId);
+		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
 
 		
 		if (selectedRentBookInfo == null) {
-			RentbooksService.rentBook(bookId);
-			model.addAttribute("bookDetailsInfo", BooksService.getBookInfo(bookId));
+			rentbooksService.rentBook(bookId);
+			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 			return "details";
 			
 		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
-			model.addAttribute("bookDetailsInfo", BooksService.getBookInfo(bookId));
+			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 			return "details";
 	
 		}
