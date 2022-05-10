@@ -1,3 +1,4 @@
+
 package jp.co.seattle.library.service;
 
 import org.slf4j.Logger;
