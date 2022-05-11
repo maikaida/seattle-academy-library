@@ -39,17 +39,16 @@ public class RentBooksController {
 		logger.info("Welcome RentBooks.java! The client locale is {}.", locale);
 
 		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
-
+		
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 		
 		if (selectedRentBookInfo == null) {
 			rentbooksService.rentBook(bookId);
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 			return "details";
 			
 		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 			return "details";
 	
 		}
