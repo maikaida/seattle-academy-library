@@ -55,6 +55,20 @@ public class BooksService {
 		return bookDetailsInfo;
 	}
 	
+	/**
+	 * booksTBとrentbooksTBを外部結合する
+	 *
+	 * @param bookId 書籍ID
+	 * @return 書籍情報
+	 */
+	public String getBooksInfo(int bookId) {
+		
+		String sql = "SELECT rent_id FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
+		String bookStatus = jdbcTemplate.queryForObject(sql, String.class);
+		
+		return bookStatus;
+	}
+	
 	
 
 	/**
