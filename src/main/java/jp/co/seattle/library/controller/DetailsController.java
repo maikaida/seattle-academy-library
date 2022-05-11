@@ -39,17 +39,17 @@ public class DetailsController {
 		logger.info("Welcome detailsControler.java! The client locale is {}.", locale);
 
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-				
+
 		/**
 		 * 貸出ステータスを表示する
 		 * 
 		 * @return
 		 */
 		String bookStatus = booksService.getBooksInfo(bookId);
-		
-		if(bookStatus == null) {
+
+		if (bookStatus == null) {
 			model.addAttribute("resultMessage", "貸出し可");
-			
+
 		} else {
 			model.addAttribute("resultMessage", "貸出し中");
 		}

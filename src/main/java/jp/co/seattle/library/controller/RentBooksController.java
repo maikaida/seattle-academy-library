@@ -25,7 +25,6 @@ public class RentBooksController {
 	@Autowired
 	private BooksService booksService;
 
-	
 	/**
 	 * 対象書籍を借りる
 	 * 
@@ -40,32 +39,30 @@ public class RentBooksController {
 
 		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
 
-		
 		if (selectedRentBookInfo == null) {
 			rentbooksService.rentBook(bookId);
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
-			
 		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
 			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-	
+
 		}
-		
+
 		/**
 		 * 貸出ステータスを表示する
 		 * 
 		 * @return
 		 */
 		String bookStatus = booksService.getBooksInfo(bookId);
-		
-		if(bookStatus == null) {
+
+		if (bookStatus == null) {
 			model.addAttribute("resultMessage", "貸出し可");
-			
+
 		} else {
 			model.addAttribute("resultMessage", "貸出し中");
 		}
 		return "details";
 	}
-	
+
 }

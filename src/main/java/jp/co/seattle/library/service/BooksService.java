@@ -56,7 +56,7 @@ public class BooksService {
 	}
 	
 	/**
-	 * booksTBとrentbooksTBを外部結合する
+	 * booksTBとrentbooksTBを外部結合し貸出し書籍情報を取得する
 	 *
 	 * @param bookId 書籍ID
 	 * @return 書籍情報
