@@ -21,7 +21,7 @@ import jp.co.seattle.library.service.UsersService;
  */
 @Controller // APIの入り口
 public class AccountController {
-	final static Logger logger = LoggerFactory.getLogger(LoginController.class);
+	final static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
 	@Autowired
 	private BooksService booksService;
@@ -56,24 +56,23 @@ public class AccountController {
 
 		// TODO バリデーションチェック、パスワード一致チェック実装
 
-		userInfo.setPassword(password);
-		usersService.registUser(userInfo);
+		if (password.matches("[A-Za-z0-9]{8,}")) {
 
-		if (password.length() == 8 && password.matches("^[a-zA-Z0-9]+/z")) {
+			if (password.equals(passwordForCheck)) {
 
-			if (password == passwordForCheck) {
-				model.addAttribute("bookList", booksService.getBookList());
-				return "home";
+				userInfo.setPassword(password);
+				usersService.registUser(userInfo);
+				return "login";
 
 			} else {
 				model.addAttribute("errorMessage", "パスワードが一致しません");
-				return "createAccount";
 			}
 
 		} else {
 			model.addAttribute("errorMessage", "パスワードは8文字以上かつ半角英数字に設定してください");
-			return "createAccount";
+
 		}
+		return "createAccount";
 
 	}
 
