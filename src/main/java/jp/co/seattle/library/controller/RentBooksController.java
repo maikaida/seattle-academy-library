@@ -25,7 +25,6 @@ public class RentBooksController {
 	@Autowired
 	private BooksService booksService;
 
-	
 	/**
 	 * 対象書籍を借りる
 	 * 
@@ -39,18 +38,16 @@ public class RentBooksController {
 		logger.info("Welcome RentBooks.java! The client locale is {}.", locale);
 
 		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
-		
+
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-		
+
 		if (selectedRentBookInfo == null) {
 			rentbooksService.rentBook(bookId);
 
-			return "details";
-			
 		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
-			return "details";
-	
 		}
+
+		return "details";
 	}
 }
