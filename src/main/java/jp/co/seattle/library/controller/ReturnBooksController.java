@@ -31,14 +31,13 @@ public class ReturnBooksController {
 		logger.info("Welcome ReturnBooks.java! The client locale is {}.", locale);
 
 		RentBookInfo selectedRentBookInfo = RentbooksService.selectedRentBookInfo(bookId);
+		model.addAttribute("bookDetailsInfo", BooksService.getBookInfo(bookId));
 
 		if (selectedRentBookInfo != null) {
 			RentbooksService.returnBook(bookId);
-			model.addAttribute("bookDetailsInfo", BooksService.getBookInfo(bookId));
 
 		} else {
 			model.addAttribute("errorMessages", "貸出しされていません。");
-			model.addAttribute("bookDetailsInfo", BooksService.getBookInfo(bookId));
 
 		}
 
