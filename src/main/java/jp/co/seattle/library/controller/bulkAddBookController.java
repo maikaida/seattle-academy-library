@@ -89,7 +89,7 @@ public class bulkAddBookController {
 					bookInfo.setAuthor(bookValues[1]);
 					bookInfo.setPublisher(bookValues[2]);
 					bookInfo.setPublishDate(bookValues[3]);
-					bookInfo.setIsbn(bookValues[4]);
+					bookInfo.setISBN(bookValues[4]);
 
 					bookList.add(bookInfo);
 				}

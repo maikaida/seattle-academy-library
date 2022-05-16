@@ -71,7 +71,7 @@ public class BooksService {
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','" 
-				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getISBN() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailName() + "','" 
 				+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
@@ -97,7 +97,7 @@ public class BooksService {
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','"
-				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getISBN() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailUrl() + "',"
 				+ "now()," + "now())";
@@ -126,7 +126,7 @@ public class BooksService {
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','" 
-				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getISBN() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailName() + "','" 
 				+ bookInfo.getThumbnailUrl() + "'," + "now()) WHERE id = " + bookInfo.getBookId();
