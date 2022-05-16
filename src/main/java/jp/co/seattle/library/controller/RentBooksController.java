@@ -25,7 +25,6 @@ public class RentBooksController {
 	@Autowired
 	private BooksService booksService;
 
-	
 	/**
 	 * 対象書籍を借りる
 	 * 
@@ -40,18 +39,15 @@ public class RentBooksController {
 
 		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
 
-		
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+
 		if (selectedRentBookInfo == null) {
 			rentbooksService.rentBook(bookId);
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
-			return "details";
-			
 		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-			return "details";
-	
 		}
+
+		return "details";
 	}
 }
