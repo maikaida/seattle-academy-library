@@ -19,7 +19,7 @@ import jp.co.seattle.library.service.RentbooksService;
 @Controller
 public class RentBooksController {
 
-	final static Logger logger = LoggerFactory.getLogger(AddBooksController.class);
+	final static Logger logger = LoggerFactory.getLogger(RentBooksController.class);
 	@Autowired
 	private RentbooksService rentbooksService;
 	@Autowired
