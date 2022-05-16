@@ -76,7 +76,7 @@ public class EditBookController {
 		bookInfo.setAuthor(author);
 		bookInfo.setPublisher(publisher);
 		bookInfo.setPublishDate(publishDate);
-		bookInfo.setIsbn(isbn);
+		bookInfo.setISBN(isbn);
 		bookInfo.setExplain(explain);
 		bookInfo.setBookId(bookId);
 		List<String> errorMessage = new ArrayList<String>();
