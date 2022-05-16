@@ -39,13 +39,14 @@ public class RentBooksController {
 
 		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
 
+		
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
+
 		if (selectedRentBookInfo == null) {
 			rentbooksService.rentBook(bookId);
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
-			model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 		}
 
@@ -62,6 +63,7 @@ public class RentBooksController {
 		} else {
 			model.addAttribute("resultMessage", "貸出し中");
 		}
+
 		return "details";
 	}
 
