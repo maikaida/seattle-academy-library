@@ -25,8 +25,13 @@
         </div>
     </header>
     <main>
-        <h1>Home</h1>
-        <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a>
+    <h1>Home</h1>
+        <a href="<%=request.getContextPath()%>/searchBook"></a>
+        <form action="searchBook" style="text-align: right" method="post">
+            <input class="search1" type="search" name="title" placeholder="キーワードを入力" /> 
+            <button type="submit" value="${bookService.getSearchBookList}" name="bookId" class="btn_searchBook">検索</button>
+        </form>
+        <a href="<%=request.getContextPath()%>/addBook" class="btn_add_book">書籍の追加</a> 
         <a href="<%=request.getContextPath()%>/bulkAddBook" class="btn_bulk_book">一括登録</a>
         <div class="content_body">
             <c:if test="${!empty resultMessage}">
@@ -37,11 +42,9 @@
                     <c:forEach var="bookInfo" items="${bookList}">
                         <div class="books">
                             <form method="post" class="book_thumnail" action="<%=request.getContextPath()%>/details">
-                                <a href="javascript:void(0)" onclick="this.parentNode.submit();">
-                                 	<c:if test="${bookInfo.thumbnail == 'null'}">
+                                <a href="javascript:void(0)" onclick="this.parentNode.submit();"> <c:if test="${bookInfo.thumbnail == 'null'}">
                                         <img class="book_noimg" src="resources/img/noImg.png">
-                                    </c:if>
-                                    <c:if test="${bookInfo.thumbnail != 'null'}">
+                                    </c:if> <c:if test="${bookInfo.thumbnail != 'null'}">
                                         <img class="book_noimg" src="${bookInfo.thumbnail}">
                                     </c:if>
                                 </a> <input type="hidden" name="bookId" value="${bookInfo.bookId}">
