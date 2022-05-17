@@ -21,6 +21,15 @@ public class SearchBooksController {
 	@Autowired
 	private BooksService BooksService;
 
+	/**
+	 * 書籍検索処理
+	 * 
+	 * 
+	 * @param locale ロケール情報
+	 * @param title タイトル
+	 * @param model モデル
+	 * @return ホーム画面に遷移
+	 */
 	@Transactional
 	@RequestMapping(value = "/searchBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public String SearchBook(Locale locale, @RequestParam("title") String title, Model model) {
