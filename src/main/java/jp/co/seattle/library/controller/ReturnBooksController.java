@@ -41,6 +41,14 @@ public class ReturnBooksController {
 
 		}
 
+		/**
+		 * 貸出ステータスを表示する
+		 * 
+		 * @return
+		 */
+		String bookStatus = BooksService.getBooksInfo(bookId);
+
+		model.addAttribute("resultMessage", bookStatus);
 		return "details";
 	}
 }
