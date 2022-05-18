@@ -63,7 +63,8 @@ public class BooksService {
 	 */
 	public String getBooksInfo(int bookId) {
 		
-		String sql = "SELECT rent_id FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
+		String sql = "SELECT case when books.id = rentbooks.book_id THEN '貸出し中' ELSE '貸出し可' END FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
+		
 		String bookStatus = jdbcTemplate.queryForObject(sql, String.class);
 		
 		return bookStatus;
@@ -85,7 +86,7 @@ public class BooksService {
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','" 
-				+ bookInfo.getISBN() + "','" 
+				+ bookInfo.getIsbn() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailName() + "','" 
 				+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
@@ -111,7 +112,7 @@ public class BooksService {
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','"
-				+ bookInfo.getISBN() + "','" 
+				+ bookInfo.getIsbn() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailUrl() + "',"
 				+ "now()," + "now())";
@@ -140,7 +141,7 @@ public class BooksService {
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
 				+ bookInfo.getPublishDate() + "','" 
-				+ bookInfo.getISBN() + "','" 
+				+ bookInfo.getIsbn() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailName() + "','" 
 				+ bookInfo.getThumbnailUrl() + "'," + "now()) WHERE id = " + bookInfo.getBookId();
