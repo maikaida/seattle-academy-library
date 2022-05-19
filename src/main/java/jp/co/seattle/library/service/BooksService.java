@@ -26,6 +26,8 @@ public class BooksService {
 
 	/**
 	 * 書籍リストを取得する
+	 * 
+	 * @param title
 	 *
 	 * @return 書籍リスト
 	 */
@@ -54,7 +56,7 @@ public class BooksService {
 
 		return bookDetailsInfo;
 	}
-	
+
 	/**
 	 * booksTBとrentbooksTBを外部結合し貸出し書籍情報を取得する
 	 *
@@ -66,11 +68,9 @@ public class BooksService {
 		String sql = "SELECT case when books.id = rentbooks.book_id THEN '貸出し中' ELSE '貸出し可' END FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
 		
 		String bookStatus = jdbcTemplate.queryForObject(sql, String.class);
-		
+
 		return bookStatus;
 	}
-	
-	
 
 	/**
 	 * 書籍を登録する
@@ -82,6 +82,7 @@ public class BooksService {
 	public void registBook(BookDetailsInfo bookInfo) {
 
 		String sql = "INSERT INTO books (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, reg_date, upd_date) VALUES ('"
+
 				+ bookInfo.getTitle() + "','" 
 				+ bookInfo.getAuthor() + "','" 
 				+ bookInfo.getPublisher() + "','"
@@ -92,9 +93,8 @@ public class BooksService {
 				+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
 
 		jdbcTemplate.update(sql);
-		
+
 	}
-	
 
 	/**
 	 * 書籍を一括登録する
@@ -115,18 +115,14 @@ public class BooksService {
 				+ bookInfo.getIsbn() + "','" 
 				+ bookInfo.getExplain() + "','"
 				+ bookInfo.getThumbnailUrl() + "',"
-				+ "now()," + "now())";
-		
+				+ "now()," + "now())";		
 		
 		jdbcTemplate.update(sql);
 		
 		}
-	
-	}	
-	
-	
-	
-	
+
+	}
+
 	/**
 	 * 書籍を更新する
 	 * 
@@ -148,19 +144,32 @@ public class BooksService {
 	
 		jdbcTemplate.update(sql);
 	}
-	
-	
 
 	/**
 	 * 書籍を削除する
 	 *
 	 * @param bookId 書籍ID
-	 */	
+	 */
 	public void deleteBook(int bookId) {
 
 		String sql = "DELETE FROM books where id = " + bookId;
 
 		jdbcTemplate.update(sql);
 	}
-	
+
+	/**
+	 * 書籍を検索する
+	 * 
+	 * @param title
+	 *
+	 * @param bookId 書籍ID
+	 */
+	public List<BookInfo> searchBookList(String title) {
+
+		List<BookInfo> getSearchBookList = jdbcTemplate.query(
+				"SELECT id, title, author, publisher, publish_date, isbn, explain, thumbnail_url FROM books WHERE title LIKE '%" + title + "%'",
+				new BookInfoRowMapper());
+
+		return getSearchBookList;
+	}
 }
