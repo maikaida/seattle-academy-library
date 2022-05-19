@@ -64,9 +64,9 @@ public class BooksService {
 	 * @return 書籍情報
 	 */
 	public String getBooksInfo(int bookId) {
-
-		String sql = "SELECT rent_id FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id ="
-				+ bookId;
+		
+		String sql = "SELECT case when books.id = rentbooks.book_id THEN '貸出し中' ELSE '貸出し可' END FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
+		
 		String bookStatus = jdbcTemplate.queryForObject(sql, String.class);
 
 		return bookStatus;
@@ -82,9 +82,15 @@ public class BooksService {
 	public void registBook(BookDetailsInfo bookInfo) {
 
 		String sql = "INSERT INTO books (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, reg_date, upd_date) VALUES ('"
-				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
-				+ bookInfo.getPublishDate() + "','" + bookInfo.getIsbn() + "','" + bookInfo.getExplain() + "','"
-				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
+
+				+ bookInfo.getTitle() + "','" 
+				+ bookInfo.getAuthor() + "','" 
+				+ bookInfo.getPublisher() + "','"
+				+ bookInfo.getPublishDate() + "','" 
+				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getExplain() + "','"
+				+ bookInfo.getThumbnailName() + "','" 
+				+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
 
 		jdbcTemplate.update(sql);
 
@@ -98,16 +104,21 @@ public class BooksService {
 	 * @param bookInfo 書籍情報
 	 */
 	public void bulkAddBook(List<BookDetailsInfo> bookList) {
+		
+		for(BookDetailsInfo bookInfo : bookList) {
 
-		for (BookDetailsInfo bookInfo : bookList) {
-
-			String sql = "INSERT INTO books (title, author,publisher, publish_date, isbn, explain, thumbnail_url, reg_date, upd_date) VALUES ('"
-					+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
-					+ bookInfo.getPublishDate() + "','" + bookInfo.getIsbn() + "','" + bookInfo.getExplain() + "','"
-					+ bookInfo.getThumbnailUrl() + "'," + "now()," + "now())";
-
-			jdbcTemplate.update(sql);
-
+		String sql = "INSERT INTO books (title, author,publisher, publish_date, isbn, explain, thumbnail_url, reg_date, upd_date) VALUES ('"
+				+ bookInfo.getTitle() + "','" 
+				+ bookInfo.getAuthor() + "','" 
+				+ bookInfo.getPublisher() + "','"
+				+ bookInfo.getPublishDate() + "','"
+				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getExplain() + "','"
+				+ bookInfo.getThumbnailUrl() + "',"
+				+ "now()," + "now())";		
+		
+		jdbcTemplate.update(sql);
+		
 		}
 
 	}
@@ -120,13 +131,17 @@ public class BooksService {
 	 * @param bookInfo 書籍情報
 	 */
 	public void updateBook(BookDetailsInfo bookInfo) {
-
-		String sql = "UPDATE books SET (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, upd_date) = ('"
-				+ bookInfo.getTitle() + "','" + bookInfo.getAuthor() + "','" + bookInfo.getPublisher() + "','"
-				+ bookInfo.getPublishDate() + "','" + bookInfo.getIsbn() + "','" + bookInfo.getExplain() + "','"
-				+ bookInfo.getThumbnailName() + "','" + bookInfo.getThumbnailUrl() + "'," + "now()) WHERE id = "
-				+ bookInfo.getBookId();
-
+		
+		String sql = "UPDATE books SET (title, author,publisher, publish_date, isbn, explain, thumbnail_name, thumbnail_url, upd_date) = ('" 
+				+ bookInfo.getTitle() + "','" 
+				+ bookInfo.getAuthor() + "','" 
+				+ bookInfo.getPublisher() + "','"
+				+ bookInfo.getPublishDate() + "','" 
+				+ bookInfo.getIsbn() + "','" 
+				+ bookInfo.getExplain() + "','"
+				+ bookInfo.getThumbnailName() + "','" 
+				+ bookInfo.getThumbnailUrl() + "'," + "now()) WHERE id = " + bookInfo.getBookId();
+	
 		jdbcTemplate.update(sql);
 	}
 
