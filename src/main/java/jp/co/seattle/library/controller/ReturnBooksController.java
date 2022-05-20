@@ -21,20 +21,20 @@ public class ReturnBooksController {
 
 	final static Logger logger = LoggerFactory.getLogger(ReturnBooksController.class);
 	@Autowired
-	private RentbooksService RentbooksService;
+	private RentbooksService rentbooksService;
 	@Autowired
-	private BooksService BooksService;
+	private BooksService booksService;
 
 	@Transactional
 	@RequestMapping(value = "/returnBook", method = RequestMethod.POST, produces = "text/plain;charset=utf-8")
 	public String RentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome ReturnBooks.java! The client locale is {}.", locale);
 
-		RentBookInfo selectedRentBookInfo = RentbooksService.selectedRentBookInfo(bookId);
-		model.addAttribute("bookDetailsInfo", BooksService.getBookInfo(bookId));
+		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
+		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
 
 		if (selectedRentBookInfo != null) {
-			RentbooksService.returnBook(bookId);
+			rentbooksService.updateReturnBoook(bookId);
 
 		} else {
 			model.addAttribute("errorMessages", "貸出しされていません。");
@@ -46,7 +46,7 @@ public class ReturnBooksController {
 		 * 
 		 * @return
 		 */
-		String bookStatus = BooksService.getBooksInfo(bookId);
+		String bookStatus = booksService.getBooksInfo(bookId);
 
 		model.addAttribute("resultMessage", bookStatus);
 		return "details";

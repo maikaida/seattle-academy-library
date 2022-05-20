@@ -1,30 +1,31 @@
 package jp.co.seattle.library.dto;
 
+import java.sql.Date;
+
 import org.springframework.context.annotation.Configuration;
 
 import lombok.Data;
 
 /**
- * ユーザー情報格納DTO
+ * 貸出し書籍情報格納DTO
  *
  */
 @Configuration
 @Data
 public class RentBookInfo {
 
-    private int rentId;
-
-    private int bookId;
-
+	private String title;
+    private Date rentDate;
+    private Date returnDate;
 
     public RentBookInfo() {
 
     }
 
-    public RentBookInfo(int rentId, int bookId) {
-        this.rentId = rentId;
-        this.bookId = bookId;
-        
+    public RentBookInfo(String title, Date rentDate, Date returnDate) {
+    	this.title = title;
+        this.rentDate = rentDate;
+        this.returnDate = returnDate;
     }
 
 }

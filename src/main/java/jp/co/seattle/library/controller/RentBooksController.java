@@ -1,5 +1,6 @@
 package jp.co.seattle.library.controller;
 
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -37,11 +38,25 @@ public class RentBooksController {
 	public String RentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome RentBooks.java! The client locale is {}.", locale);
 
-		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
-
 		
+		List<RentBookInfo> rentLog = rentbooksService.rentHistoryList();
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-
+		model.addAttribute("rentLog", rentLog);
+		
+		if(rentLog == null) {
+			rentbooksService.rentBook(bookId);
+			
+		} else {
+			rentbooksService.updateRentBook(bookId);
+			
+		}
+		
+		/**
+		 * エラーメッセージを表示する
+		 * 
+		 * 
+		 */
+		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
 		if (selectedRentBookInfo == null) {
 			rentbooksService.rentBook(bookId);
 
@@ -49,6 +64,11 @@ public class RentBooksController {
 			model.addAttribute("errorMessages", "貸出し済みです。");
 
 		}
+		
+//		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
+//
+//
+
 
 		/**
 		 * 貸出ステータスを表示する

@@ -144,6 +144,8 @@ public class BooksService {
 	
 		jdbcTemplate.update(sql);
 	}
+	
+	
 
 	/**
 	 * 書籍を削除する

@@ -15,9 +15,9 @@ public class RentRowMapper implements RowMapper<RentBookInfo> {
 	    public RentBookInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
 		 
 		  RentBookInfo rentBookInfo = new RentBookInfo();
-		 
-		  rentBookInfo.setRentId(rs.getInt("rent_id"));
-		  rentBookInfo.setBookId(rs.getInt("book_id"));
+		  rentBookInfo.setTitle(rs.getString("title"));
+		  rentBookInfo.setRentDate(rs.getDate("rentdate"));
+		  rentBookInfo.setReturnDate(rs.getDate("returndate"));
 		  return rentBookInfo;
 	
 	 	}
