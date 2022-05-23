@@ -1,6 +1,5 @@
 package jp.co.seattle.library.controller;
 
-import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jp.co.seattle.library.dto.RentBookInfo;
 import jp.co.seattle.library.service.BooksService;
 import jp.co.seattle.library.service.RentbooksService;
 
@@ -38,37 +36,22 @@ public class RentBooksController {
 	public String RentBook(Locale locale, @RequestParam("bookId") Integer bookId, Model model) {
 		logger.info("Welcome RentBooks.java! The client locale is {}.", locale);
 
-		
-		List<RentBookInfo> rentLog = rentbooksService.rentHistoryList();
+		/**
+		 * 貸出情報を取得する
+		 * 
+		 * 
+		 */
+		Boolean rentLog = rentbooksService.selectedRentBookInfo(bookId);
 		model.addAttribute("bookDetailsInfo", booksService.getBookInfo(bookId));
-		model.addAttribute("rentLog", rentLog);
 		
-		if(rentLog == null) {
+		if(!rentLog) {
 			rentbooksService.rentBook(bookId);
 			
 		} else {
 			rentbooksService.updateRentBook(bookId);
-			
-		}
-		
-		/**
-		 * エラーメッセージを表示する
-		 * 
-		 * 
-		 */
-		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
-		if (selectedRentBookInfo == null) {
-			rentbooksService.rentBook(bookId);
-
-		} else {
 			model.addAttribute("errorMessages", "貸出し済みです。");
-
 		}
 		
-//		RentBookInfo selectedRentBookInfo = rentbooksService.selectedRentBookInfo(bookId);
-//
-//
-
 
 		/**
 		 * 貸出ステータスを表示する

@@ -65,7 +65,7 @@ public class BooksService {
 	 */
 	public String getBooksInfo(int bookId) {
 		
-		String sql = "SELECT case when books.id = rentbooks.book_id THEN '貸出し中' ELSE '貸出し可' END FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
+		String sql = "SELECT case when rentdate is not null THEN '貸出し中' ELSE '貸出し可' END FROM books LEFT OUTER JOIN rentbooks ON books.id = rentbooks.book_id where id =" + bookId;
 		
 		String bookStatus = jdbcTemplate.queryForObject(sql, String.class);
 

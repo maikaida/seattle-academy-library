@@ -10,6 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import jp.co.seattle.library.dto.RentBookInfo;
+import jp.co.seattle.library.dto.RentBooksinfo;
+import jp.co.seattle.library.rowMapper.RentBooksinfoRowMapper;
 import jp.co.seattle.library.rowMapper.RentRowMapper;
 
 /**
@@ -45,21 +47,32 @@ public class RentbooksService {
 	 * 
 	 * @param bookId 書籍Id
 	 */
-	public RentBookInfo selectedRentBookInfo(int bookId) {
+	public Boolean selectedRentBookInfo(int bookId) {
 
-		String sql = "SELECT * FROM rentbooks where book_id =" + bookId;
+		String sql = "SELECT exists (select * FROM rentbooks where book_id =" + bookId + ")";
 
-		try {
-			RentBookInfo rentBookInfo = jdbcTemplate.queryForObject(sql, new RentRowMapper());
-			return rentBookInfo;
+		Boolean rentBookInfo = jdbcTemplate.queryForObject(sql, Boolean.class);
+		return rentBookInfo;
+		
+	}
 
-		} catch (Exception e) {
 
-			return null;
-		}
+	/**
+	 * 貸出書籍情報を取得する
+	 * 
+	 * 
+	 * 
+	 * @param bookId 書籍Id
+	 */
+	public RentBooksinfo selectedRentBooksInfo(int bookId) {
+
+		String sql = "SELECT rentdate FROM rentbooks where book_id =" + bookId;
+
+		RentBooksinfo rentBooksInfo = jdbcTemplate.queryForObject(sql, new RentBooksinfoRowMapper());
+		return rentBooksInfo;
 
 	}
-	
+
 	/**
 	 * 貸出履歴を取得する
 	 * 
@@ -68,9 +81,11 @@ public class RentbooksService {
 	 * @param bookId 書籍Id
 	 */
 	public List<RentBookInfo> rentHistoryList() {
-		
-		List<RentBookInfo> rentHistoryList = jdbcTemplate.query("SELECT title, rentDate, returnDate FROM rentbooks INNER JOIN books ON rentbooks.book_id = books.id", new RentRowMapper());
-		
+
+		List<RentBookInfo> rentHistoryList = jdbcTemplate.query(
+				"SELECT book_id, title, rentdate, returndate FROM rentbooks INNER JOIN books ON rentbooks.book_id = books.id",
+				new RentRowMapper());
+
 		return rentHistoryList;
 	}
 
@@ -82,11 +97,10 @@ public class RentbooksService {
 	 * @param bookInfo 書籍情報
 	 */
 	public void updateRentBook(int bookId) {
-		
+
 		String sql = "UPDATE rentbooks SET (rentDate, returnDate) = (now(), null) where book_id =" + bookId;
 		jdbcTemplate.update(sql);
 	}
-	
 
 	/**
 	 * rentbooksテーブルの返却日を更新する
@@ -97,7 +111,7 @@ public class RentbooksService {
 	 */
 	public void updateReturnBoook(int bookId) {
 
-		String sql = "UPDATE rentbooks SET (rentDate, returnDate) = (null, now()) where book_id =" + bookId; 
+		String sql = "UPDATE rentbooks SET (rentDate, returnDate) = (null, now()) where book_id =" + bookId;
 		jdbcTemplate.update(sql);
 	}
 

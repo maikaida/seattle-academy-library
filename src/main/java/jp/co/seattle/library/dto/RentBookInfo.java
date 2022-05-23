@@ -14,18 +14,21 @@ import lombok.Data;
 @Data
 public class RentBookInfo {
 
+	private int bookId;
 	private String title;
-    private Date rentDate;
-    private Date returnDate;
+	private Date rentDate;
+	private Date returnDate;
 
-    public RentBookInfo() {
+	public RentBookInfo() {
 
-    }
+	}
 
-    public RentBookInfo(String title, Date rentDate, Date returnDate) {
-    	this.title = title;
-        this.rentDate = rentDate;
-        this.returnDate = returnDate;
-    }
+	public RentBookInfo(int bookId, String title, Date rentDate, Date returnDate) {
+
+		this.bookId = bookId;
+		this.title = title;
+		this.rentDate = rentDate;
+		this.returnDate = returnDate;
+	}
 
 }

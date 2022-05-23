@@ -63,7 +63,7 @@ public class AddBooksController {
 		bookInfo.setAuthor(author);
 		bookInfo.setPublisher(publisher);
 		bookInfo.setPublishDate(publishDate);
-		bookInfo.setISBN(isbn);
+		bookInfo.setIsbn(isbn);
 		bookInfo.setExplain(explain);
 		
 	
@@ -104,9 +104,7 @@ public class AddBooksController {
 			errorMessage.add("<br>出版日は半角数字のYYYYMMDD形式で入力してください</br>");
 		}
 
-		Boolean digitNumberCheck = !isbn.matches("^[0-9]{10}+$") && !isbn.matches("^[0-9]{13}+$");
-		
-		
+		Boolean digitNumberCheck = !isbn.matches("^[0-9]{10}+$") && !isbn.matches("^[0-9]{13}+$");		
 		
 		if (!isbn.isEmpty() && digitNumberCheck) {
 			errorMessage.add("<br>ISBNの桁数または半角数字が正しくありません</br>");
@@ -115,7 +113,7 @@ public class AddBooksController {
 		if (errorMessage.size() > 0) {
 			model.addAttribute("errorMessage", errorMessage);
 			model.addAttribute("bookInfo", bookInfo);
-			return "addBook";
+			return "editBook";
 		}
 		
 
@@ -129,5 +127,4 @@ public class AddBooksController {
 		return "details";
 
 	}
-
 }
